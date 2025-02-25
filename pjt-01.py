@@ -8,9 +8,6 @@ def calculate_fare(adults, children, seniors, students, zones_traveled):
     senior_fare_per_zone = 1025  # Fare per senior per zone
     student_fare_per_zone = 1750  # Fare per student per zone
     
-    #Ensure at least one zone is traveled (minimum fare applies)
-    zones_traveled = max(zones_traveled,1)
-
     # Calculate total fare for each category based on zones traveled
     total_adult_fare = adults * adult_fare_per_zone * zones_traveled
     total_child_fare = children * child_fare_per_zone * zones_traveled
@@ -49,8 +46,8 @@ def generate_voucher():
         boarding_zone = get_valid_input("Enter boarding zone number (1-3): ", 1, 3)
         destination_zone = get_valid_input("Enter destination zone number (1-3): ", 1, 3)
         
-        # Calculate zones traveled (absolute difference between zones)
-        zones_traveled = abs(boarding_zone - destination_zone)
+        # Calculate zones traveled (absolute difference between zones) ALSO ensuring at least one zone is traveled (minimum fare applies)
+        zones_traveled = max(abs(boarding_zone - destination_zone),1)
         
         # Map zone numbers to names
         zone_names = {1: "Downtown", 2: "Midtown", 3: "Central"}
@@ -84,24 +81,7 @@ def generate_voucher():
         print(f"{'Total Travellers:':<20} {total_travelers:<5} cents")
         print(f"{'Total Fare:':<20} {total_fare:<5} cents")
         print("====================\n")
-
-        """
-        print("\n=== Travel Voucher ===")
-        print(f"Date & Time: {current_datetime}")
-        print(f"Boarding Zone: {boarding_zone_name}")
-
-        print(f"Destination Zone: {destination_zone_name}")
-        print(f"\nZones Travelled: {zones_traveled}")
-
-        print(f"Adults:     {adults}   (Fare: {total_adult_fare}   cents)")
-        print(f"Children:   {children} (Fare: {total_child_fare}   cents)")
-        print(f"Seniors:    {seniors}  (Fare: {total_senior_fare}  cents)")
-        print(f"Students:   {students} (Fare: {total_student_fare} cents)")
-        print(f"Total Travellers:             {total_travelers}    cents")
-        print(f"Total Fare:                   {total_fare}         cents")
-        print("====================\n")
-        """
-        
+      
         # Ask if the user wants to generate another voucher
         another_voucher = input("Do you want to generate another voucher? (yes/no): ").strip().lower()
         if another_voucher != 'yes':
